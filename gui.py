@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import Canvas
 import threading
-from tts import listen
-from stt import speak
+from tts import speak
+from stt import listen
 from llm import ask_llm
-from utils import update_status, add_message
+from utils import update_status, add_message, start_listening
 
 # GUI setup ...
 # (copy toàn bộ phần GUI từ file ban đầu vào đây, rồi sửa lại các lệnh gọi như dưới)
