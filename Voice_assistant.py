@@ -21,7 +21,6 @@ def speak(text):
     os.remove(filename)
 
 # ---------LLM ==========
-
 def ask_llm(message):
     url = "http://localhost:11434/api/generate"
     payload = {
@@ -49,7 +48,7 @@ def listen():
         except:
             return None
 
-# ========= utils ---------
+# ========= Giao diện ==========
 def update_status(text):
     status_label.config(text=text)
 
@@ -82,7 +81,7 @@ def handle_interaction():
 def start_listening():
     threading.Thread(target=handle_interaction).start()
 
-# ========= Giao diện ==========
+
 root = tk.Tk()
 root.title("Trợ lý ảo")
 root.geometry("430x650")
