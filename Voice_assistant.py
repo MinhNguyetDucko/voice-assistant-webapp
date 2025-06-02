@@ -1,8 +1,7 @@
-from langchain_community.llms import Ollama
-from langchain.chains import ConversationChain
-from langchain.memory import ConversationBufferMemory
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_ollama.llms import OllamaLLM
 # Chỉ cần chạy con này houy được rồi
-import tkinter as tk
+import tkinter as tk 
 from tkinter import Canvas
 from tkinter import font
 import threading
@@ -14,26 +13,27 @@ import os
 
 # ========= TTS ==========
 def speak(text):
-    tts = gTTS(text=text, lang='en')  # đổi sang tiếng Việt nếu cần
+    tts = gTTS(text=text, lang='vi')  # đổi sang tiếng Việt nếu cần
     filename = "voice.mp3"
     tts.save(filename)
     playsound.playsound(filename)
     os.remove(filename)
 
 # ---------LLM ==========
-def ask_llm(message):
-    url = "http://localhost:11434/api/generate"
-    payload = {
-        "model": "phi3",
-        "prompt": message,
-        "stream": False
-    }
+def ask_llm(message: str) -> str:
+    model = OllamaLLM(model="phi3")
+    # System prompt để cố định ngôn ngữ
+    system_prompt = """Bạn là trợ lý AI người Việt Nam. 
+    QUAN TRỌNG: Luôn luôn trả lời bằng tiếng Việt, không bao giờ sử dụng tiếng Anh.
+    Hãy trả lời một cách tự nhiên, thân thiện và hữu ích."""
+    
+    full_prompt = f"{system_prompt}\n\nCâu hỏi: {message}\nTrả lời:"
+    
     try:
-        response = requests.post(url, json=payload)
-        response.raise_for_status()
-        return response.json()['response'].strip()
-    except requests.RequestException:
-        return "Xin lỗi, tôi không thể trả lời ngay bây giờ."
+        response = model.invoke(full_prompt)
+        return response.strip()
+    except Exception as e:
+        return "Xin lỗi, có lỗi xảy ra. Vui lòng thử lại."
 
 # ========= STT ---------
 def listen():
@@ -43,12 +43,12 @@ def listen():
         r.adjust_for_ambient_noise(mic, duration=1)
         try:
             audio = r.listen(mic, timeout=3, phrase_time_limit=5)
-            text = r.recognize_google(audio, language='en-EN')
+            text = r.recognize_google(audio, language='vi-VI')
             return text
         except:
             return None
 
-# ========= Giao diện ==========
+# ========= Controller ==========
 def update_status(text):
     status_label.config(text=text)
 
@@ -81,6 +81,7 @@ def handle_interaction():
 def start_listening():
     threading.Thread(target=handle_interaction).start()
 
+# ========= UI ==========
 
 root = tk.Tk()
 root.title("Trợ lý ảo")

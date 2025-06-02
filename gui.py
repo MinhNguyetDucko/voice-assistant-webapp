@@ -4,10 +4,7 @@ import threading
 from tts import speak
 from stt import listen
 from llm import ask_llm
-from utils import update_status, add_message, start_listening
-
-# GUI setup ...
-# (copy toàn bộ phần GUI từ file ban đầu vào đây, rồi sửa lại các lệnh gọi như dưới)
+from utils import update_status, add_message, handle_interaction, start_listening
 
 root = tk.Tk()
 root.title("Trợ lý ảo")
@@ -48,12 +45,30 @@ status_label.place(x=10, y=510)
 
 # Nút nói hình tròn ở giữa dưới
 def round_button(canvas, x, y, r, command=None):
-    btn = canvas.create_oval(x - r, y - r, x + r, y + r, fill="#00BCD4", outline="")
-    mic_icon = canvas.create_text(x, y, text="🎤", font=("Segoe UI", 20, "bold"), fill="white")
+    # Đổ bóng
+    shadow = canvas.create_oval(x - r + 3, y - r + 3, x + r + 3, y + r + 3, fill="#0097A7", outline="")
+
+    # Nút chính với màu xanh đẹp
+    button = canvas.create_oval(x - r, y - r, x + r, y + r, fill="#00BCD4", outline="")
+
+    # Icon mic
+    mic_icon = canvas.create_text(x, y, text="🎤", font=("Segoe UI", 22, "bold"), fill="white")
+
     def on_click(event):
-        if command: command()
-    canvas.tag_bind(btn, "<Button-1>", on_click)
-    canvas.tag_bind(mic_icon, "<Button-1>", on_click)
+        if command:
+            command()
+
+    # Hover effect
+    def on_enter(event):
+        canvas.itemconfig(button, fill="#26C6DA")
+    def on_leave(event):
+        canvas.itemconfig(button, fill="#00BCD4")
+
+    # Gắn sự kiện chuột
+    for item in [button, mic_icon]:
+        canvas.tag_bind(item, "<Button-1>", on_click)
+        canvas.tag_bind(item, "<Enter>", on_enter)
+        canvas.tag_bind(item, "<Leave>", on_leave)
 
 button_canvas = Canvas(root, width=100, height=100, bg="#ffffff", highlightthickness=0)
 button_canvas.place(x=165, y=540)  # Chính giữa
