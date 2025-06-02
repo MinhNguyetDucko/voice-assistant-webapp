@@ -3,3 +3,5 @@ speechrecognition
 playsound == 1.2.2
 requests
 gTTS
+langchain
+langchain_community

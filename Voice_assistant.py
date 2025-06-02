@@ -25,8 +25,8 @@ def ask_llm(message: str) -> str:
     # System prompt để cố định ngôn ngữ
     system_prompt = """Bạn là trợ lý AI người Việt Nam. 
     QUAN TRỌNG: Luôn luôn trả lời bằng tiếng Việt, không bao giờ sử dụng tiếng Anh.
-    Hãy trả lời một cách tự nhiên, thân thiện và hữu ích."""
-    
+    Hãy trả lời một cách tự nhiên ngắn gọn xúc tích (2-3 câu)"""
+
     full_prompt = f"{system_prompt}\n\nCâu hỏi: {message}\nTrả lời:"
     
     try:

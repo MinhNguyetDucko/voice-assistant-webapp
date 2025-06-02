@@ -1,41 +1,53 @@
-import tkinter as tk
-from tkinter import Canvas
+# utils.py - Các hàm tiện ích
 import threading
-import playsound
-import os
-from stt import listen
-from tts import speak
-from llm import ask_llm
+from datetime import datetime
 
+def update_status(status_label, message):
+    """Cập nhật trạng thái trên GUI"""
+    if status_label:
+        status_label.config(text=message)
 
-def update_status(text):
-    status_label.config(text=text)
+def add_message(chat_frame, sender, message, chat_canvas=None):
+    """Thêm tin nhắn vào chat (legacy function)"""
+    # Hàm này được thay thế bởi method trong main class
+    pass
 
-def add_message(text, is_user=False):
-    bubble = tk.Frame(chat_frame, bg="#F1F0F0" if is_user else "#F1F0F0", bd=0, padx=10, pady=8)
-    msg = tk.Label(bubble, text=text, wraplength=300, justify="left", font=("Segoe UI", 11),
-                   bg="#F1F0F0" if is_user else "#F1F0F0", fg="black")
-    msg.pack()
-    bubble.pack(anchor="e" if is_user else "w", pady=5, padx=10, fill="x", expand=True)
-    chat_canvas.update_idletasks()
-    chat_canvas.yview_moveto(1)
+def handle_interaction(user_input, add_message_func, speak_func, ask_llm_func):
+    """Xử lý tương tác giữa user và AI"""
+    try:
+        if user_input:
+            # Hiển thị input của user
+            add_message_func("Bạn", user_input)
+            
+            # Lấy response từ AI
+            ai_response = ask_llm_func(user_input)
+            
+            # Hiển thị và đọc response
+            add_message_func("AI", ai_response)
+            speak_func(ai_response)
+            
+            return ai_response
+    except Exception as e:
+        error_msg = "Xin lỗi, có lỗi xảy ra."
+        add_message_func("AI", error_msg)
+        speak_func(error_msg)
+        return error_msg
 
-def handle_interaction():
-    update_status("Đang xử lý...")
-    user_input = listen()
-    if not user_input:
-        update_status("Không nhận được âm thanh.")
-        return
+def start_listening(listen_func, handle_interaction_func, update_status_func):
+    """Bắt đầu quá trình lắng nghe (legacy function)"""
+    # Hàm này được thay thế bởi method trong main class
+    pass
 
-    add_message(user_input, is_user=True)
-    if user_input.lower() in ["thoát", "tạm biệt", "bye", "dừng lại"]:
-        speak("Tạm biệt, hẹn gặp lại!")
-        root.quit()
-    else:
-        reply = ask_llm(user_input)
-        add_message(reply, is_user=False)
-        speak(reply)
-        update_status("✅ Xong")
+def format_timestamp():
+    """Tạo timestamp cho tin nhắn"""
+    return datetime.now().strftime("%H:%M:%S")
 
-def start_listening():
-    threading.Thread(target=handle_interaction).start()
+def safe_thread_run(target_func, *args, **kwargs):
+    """Chạy function trong thread an toàn"""
+    try:
+        thread = threading.Thread(target=target_func, args=args, kwargs=kwargs, daemon=True)
+        thread.start()
+        return thread
+    except Exception as e:
+        print(f"Thread error: {e}")
+        return None

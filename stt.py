@@ -7,7 +7,7 @@ def listen(update_status=None):
         r.adjust_for_ambient_noise(mic, duration=1)
         try:
             audio = r.listen(mic, timeout=3, phrase_time_limit=5)
-            text = r.recognize_google(audio, language='en-EN')
+            text = r.recognize_google(audio, language='vi-VI')
             return text
         except:
             return None
