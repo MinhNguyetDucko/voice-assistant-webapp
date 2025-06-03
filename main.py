@@ -3,7 +3,7 @@ from tkinter import Canvas, messagebox, ttk
 import threading
 import time
 from datetime import datetime
-# Import các module
+
 from tts import speak
 from stt import listen
 from improved_llm_handler import create_voice_assistant

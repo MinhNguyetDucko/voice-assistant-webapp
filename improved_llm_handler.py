@@ -5,7 +5,7 @@ from datetime import datetime
 import re
 
 class ImprovedLLMHandler:
-    def __init__(self, model_name: str = "phi3", mongo_uri: str = "mongodb://localhost:27017/"):
+    def __init__(self, model_name: str = "llama3:8b", mongo_uri: str = "mongodb://localhost:27017/"):
         """
         Khởi tạo LLM handler với memory
         """

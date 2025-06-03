@@ -5,3 +5,7 @@ requests
 gTTS
 langchain
 langchain_community
+tkinter
+threading
+ConversationMemory
+langchain_ollama
