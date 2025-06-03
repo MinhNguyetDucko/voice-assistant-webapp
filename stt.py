@@ -1,5 +1,5 @@
 import speech_recognition as sr
-import Pyaudio
+import pyaudio
 
 def listen(update_status=None): 
     r = sr.Recognizer()

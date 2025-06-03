@@ -4,6 +4,7 @@ import threading
 import time
 from datetime import datetime
 
+import pyaudio
 from tts import speak
 from stt import listen
 from improved_llm_handler import create_voice_assistant
