@@ -248,44 +248,6 @@ Trả lời (nhớ: NGẮN GỌN, 1-2 câu):"""
         """
         self.memory.close()
 
-# Sử dụng đơn giản
 def create_voice_assistant():
-    """
-    Tạo voice assistant instance
-    """
     return ImprovedLLMHandler()
 
-# Test function
-if __name__ == "__main__":
-    assistant = create_voice_assistant()
-    
-    # Bắt đầu session mới
-    session_id = assistant.start_new_session("test_user")
-    print(f"Đã tạo session: {session_id}")
-    
-    # Test các câu hỏi về thời gian
-    test_questions = [
-        "Mấy giờ rồi?",
-        "Hôm nay thứ mấy?",
-        "Hôm nay là ngày bao nhiêu?",
-        "Bây giờ là tháng mấy?",
-        "Năm nay là năm nào?",
-    ]
-    
-    print("\n=== Test câu hỏi về thời gian ===")
-    for question in test_questions:
-        print(f"\nCâu hỏi: {question}")
-        response = assistant.ask_llm(question)
-        print(f"AI: {response}")
-    
-    # Test chat thông thường
-    print("\n=== Chat thông thường ===")
-    while True:
-        user_input = input("\nBạn: ")
-        if user_input.lower() in ['quit', 'exit', 'thoát']:
-            break
-            
-        response = assistant.ask_llm(user_input)
-        print(f"AI: {response}")
-    
-    assistant.close()

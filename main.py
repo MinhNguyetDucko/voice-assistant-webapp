@@ -27,7 +27,7 @@ class VoiceAssistantGUI:
     def setup_gui(self):
         """Thiết lập giao diện người dùng"""
         self.root = tk.Tk()
-        self.root.title("🎤 Trợ lý ảo thông minh - Voice Assistant")
+        self.root.title("Trợ lý ảo thông minh - Voice Assistant")
         self.root.geometry("900x700")
         self.root.resizable(True, True)
         self.root.configure(bg="#f0f2f5")
@@ -515,18 +515,18 @@ def main():
         required_files = ['tts.py', 'stt.py', 'improved_llm_handler.py', 'conversation_memory.py']
         for file in required_files:
             if not os.path.exists(file):
-                print(f"❌ Thiếu file: {file}")
+                print(f"Thiếu file: {file}")
                 return
         
-        print("🚀 Khởi động Voice Assistant...")
+        print("Khởi động Voice Assistant...")
         
         # Tạo và chạy ứng dụng
-        print("🎨 Đang khởi động GUI...")
+        print("Đang khởi động GUI...")
         app = VoiceAssistantGUI()
         app.run()
         
     except Exception as e:
-        print(f"❌ Lỗi khởi động: {e}")
+        print(f"Lỗi khởi động: {e}")
         messagebox.showerror("Lỗi", f"Không thể khởi động ứng dụng:\n{e}")
 
 if __name__ == "__main__":
